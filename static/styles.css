@@ -1,0 +1,19 @@
+body{
+    padding: 20px;
+    padding-top: 60px;
+}
+.list-group-item img{
+    height: auto;
+}
+h1{
+    margin-bottom: 40px;
+}
+.card{
+    padding: 20px;
+}
+.card img{
+    max-width: 200px;
+}
+.text-right{
+    text-align: right;
+}
