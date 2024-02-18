@@ -11,7 +11,7 @@ users=[
     ("admin","asix2023","Rambla Catalunya 82 bajos"),
     ("carlos","12345","Carretera de Sants 12 3o 1a"),
     ("julia", "pass6789", "Avenida Diagonal 401 2o 2a"),
-    ("marc", "secure2024", "Gran Via 555 5o 3a"),
+    ("marc", "marc2024", "Gran Via 555 5o 3a"),
     ("lucia", "mypassword", "Passeig de Gracia 60 1o 1a"),
 ]
 for e in users:
