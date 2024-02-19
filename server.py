@@ -40,6 +40,32 @@ def login():
        return redirect('user/'+str(res[0]))
     else:
         return render_template("login.html")
+    
+@app.route("/register",methods=['GET','POST'])
+def register():
+    registered=False
+    if request.method == "POST":
+        conn=sqlite3.connect("store.db")
+        cur=conn.cursor()
+        print(request.form)
+        SQL='INSERT INTO users VALUES ('
+        for field in list(request.form):
+            SQL+=f'"{request.form[field]}", '
+        SQL=SQL.rstrip(', ')
+        SQL+=')'
+        print("create user",SQL)
+        try:
+            cur.execute(SQL)
+            conn.commit()
+            newuserid=cur.lastrowid
+            registered=True
+        except Exception as e:
+            return render_template("register.html",errors=e)
+
+    if registered:
+        return redirect('user/'+str(newuserid))
+    else:
+        return render_template("register.html")
 
 @app.route("/user/<int:userid>")
 def user(userid):
