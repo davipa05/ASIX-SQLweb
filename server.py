@@ -28,7 +28,7 @@ def login():
         SQL=f'SELECT rowid,username, password FROM users WHERE username="{username}" AND password="{password}"'
         print(SQL)
         try:
-            res=cur. executescript(SQL).fetchone()
+            res=cur.execute(SQL).fetchone()
         except Exception as e:
             return render_template("login.html",errors=e)
         if res:
