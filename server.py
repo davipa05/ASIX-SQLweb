@@ -1,6 +1,9 @@
 import sqlite3
 from flask import Flask, render_template,url_for,redirect,request
 import sqlite3
+import hashlib
+import uuid
+from createdb import cipher_suite
 
 
 
@@ -35,7 +38,7 @@ def login():
            print("USER", res[0])
            logged=True
         else:
-            return render_template("login.html",errors="El usuario no existe o la contraseña no coincide ")
+            return render_template("login.html",errors="Ha habido alguna clase de error")
     if logged:
        return redirect('user/'+str(res[0]))
     else:
@@ -48,10 +51,24 @@ def register():
         conn=sqlite3.connect("store.db")
         cur=conn.cursor()
         print(request.form)
+
         SQL='INSERT INTO users VALUES ('
+        SQL += '"'+str[uuid.uuid4()]+'",'
         for field in list(request.form):
-            SQL+=f'"{request.form[field]}", '
+
+            campo = field
+            valor=request.form[field]
+
+            if campo=="password":
+                valor=hashlib.sha256(bytes(valor,'utf-8')).hexdigest()
+
+            elif campo=="adress":
+                valor = cipher_suite.encrypt(bytes(valor,'utf-8')).hexdigest()
+
+            SQL+=f'"{valor}",'
+            
         SQL=SQL.rstrip(', ')
+        SQL+=',"'+2+'"'
         SQL+=')'
         print("create user",SQL)
         try:
@@ -82,4 +99,4 @@ def user(userid):
     return render_template("user.html", userdata={"username":userdata[0],"adress":userdata[1],"products":prod})
 
 if __name__ == "__main__":
-  app.run(debug=True,host="0.0.0.0")
+  app.run(debug=False,host="0.0.0.0")
